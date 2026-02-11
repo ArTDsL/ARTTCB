@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARTTCB", "ARTTCBLib\ARTTCB.csproj", "{CAB21908-626F-48C0-9CA5-623FA30F593B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ARTTCBConsole", "ARTTCBConsole\ARTTCBConsole.csproj", "{06C4B7F6-975D-4D47-9E2C-6167D35455BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAB21908-626F-48C0-9CA5-623FA30F593B}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB21908-626F-48C0-9CA5-623FA30F593B}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{CAB21908-626F-48C0-9CA5-623FA30F593B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAB21908-626F-48C0-9CA5-623FA30F593B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C4B7F6-975D-4D47-9E2C-6167D35455BE}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{06C4B7F6-975D-4D47-9E2C-6167D35455BE}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{06C4B7F6-975D-4D47-9E2C-6167D35455BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C4B7F6-975D-4D47-9E2C-6167D35455BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DCFD3D8B-37ED-4948-8454-B83D8B0F06FD}
+	EndGlobalSection
+EndGlobal

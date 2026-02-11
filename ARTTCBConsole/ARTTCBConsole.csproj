@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Title>ART Tiny C Builder (ARTTCB) - Console</Title>
+    <Description>ART Tiny C Builder (ARTTCB) - Console</Description>
+    <Product>ART Tiny C Builder (ARTTCB) - Console</Product>
+    <Company>https://github.com/ArTDsL/</Company>
+    <Authors>Arthur "ArTDsl" Dias dos Santos Lasso</Authors>
+    <Copyright>Copyright (c) 2026. Arthur "ArTDsl" Dias dos Santos Lasso. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/ArTDsL/ARTTCB/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/ArTDsL/ARTTCB/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ARTTCBLib\ARTTCB.csproj" />
+  </ItemGroup>
+
+</Project>

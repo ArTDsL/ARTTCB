@@ -1,0 +1,23 @@
+/.vs/
+/.vs/*
+#Console
+/ARTTCBConsole/bin/
+/ARTTCBConsole/bin/*
+/ARTTCBConsole/obj/
+/ARTTCBConsole/obj/*
+/ARTTCBConsole/Properties/
+/ARTTCBConsole/Properties/*
+/ARTTCBConsole/.vs/
+/ARTTCBConsole/.vs/*
+#Lib
+/ARTTCBLib/bin/
+/ARTTCBLib/bin/*
+/ARTTCBLib/obj/
+/ARTTCBLib/obj/*
+/ARTTCBLib/Properties/
+/ARTTCBLib/Properties/*
+/ARTTCBLib/.vs/
+/ARTTCBLib/.vs/*
+# Tests
+/Tests/
+/Tests/*
