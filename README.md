@@ -17,13 +17,13 @@ Download the binaries [**here**](https://github.com/ArTDsL/ARTTCB/releases)!
 
 **Instructions here are the same for all systems (Windows / Linux / MacOS):**
 
-**1)** _Copy `ARTTCBConsole.exe` <small>(or `ARTTCBConsole` in case of **Linux** and **MacOs**)</small>, `ARTTCBConsole.dll`,`ARTTCB.dll` and `YamlDotNet.dll` to your project folder._
+**1)** _Copy `ARTTCB.exe` <small>(or `ARTTCB` in case of **Linux** and **MacOs**)</small> to your project folder._
 
 **2)** Create `buildme.tcb` file;
 
-**3)** Run `ARTTCBConsole` in a CMD <small>(or terminal in case of **Linux** and **MacOs**)</small>.
+**3)** Run `ARTTCB` in a CMD <small>(or terminal in case of **Linux** and **MacOs**)</small>.
 
-**4)** Use the command `.\ARTTCBConsole.exe build` <small>(or `./ARTTCBConsole build` in case of **Linux** and **MacOs**)</small>.
+**4)** Use the command `.\ARTTCB.exe build -log` <small>(or `./ARTTCB build -log` in case of **Linux** and **MacOs**)</small>.
 
 **OBS:** _**Make sure all [ARTTCB files](#using-binaries) are in the same folder, includer your `buildme.tcb`.**_
 
@@ -91,21 +91,21 @@ jump_object_compilation: false
 #### What means those parameters?
 
 **Project Information:**
-* **project_name** - Name of the project (use only alpha-numeric with spaces, **can use uppercase and lowercase letters**).
-* **project_version** - Version of the project (Only numbers, dots and hyphens).
-* **project_author** - Author of the project (same as Project Name, but can include "**(c)**" for copyright, dots and commas.
-* **project_buildname** - This name will be used in file outputs and others (recommended only lowercase letters, alpha-numeric, separated only with underscore).
+* **project\_name** - Name of the project (use only alpha-numeric with spaces, **can use uppercase and lowercase letters**).
+* **project\_version** - Version of the project (Only numbers, dots and hyphens).
+* **project\_author** - Author of the project (same as Project Name, but can include "**(c)**" for copyright, dots and commas.
+* **project\_buildname** - This name will be used in file outputs and others (recommended only lowercase letters, alpha-numeric, separated only with underscore).
 
 **Project Folders:**
-* **working_dir** - Full path where your project is located.
-* **build_folder** - Folder where your build files are going to be located;
-* **include_folders** - Folder where your include (headers) files are located;
-* **code_main_dir** - Folder where your Source Code (\*.c) files are located;
+* **working\_dir** - Full path where your project is located.
+* **build\_folder** - Folder where your build files are going to be located;
+* **include\_folders** - Folder where your include (headers) files are located;
+* **code\_main\_dir** - Folder where your Source Code (\*.c) files are located;
     
     <small>(**OBS:** _Folders: **build\_folder**, **include\_folders**, **code\_main\_dir** have the **working\_dir** as **ROOT**, it means their path start inside the **working\_dir** folder._)</small>
 
 **Build type:** _(This will change in the future as things goes...)_
-* **build_type** - The **build\_type** defines what type of build you want to perform:
+* **build\_type** - The **build\_type** defines what type of build you want to perform:
 * * **EXE** - Windows Executable
 * * **LEXEC** - Linux Executable
 * * **MEXEC** - MacOS Executable
@@ -113,18 +113,18 @@ jump_object_compilation: false
 * * **SLIB** - Static Library
 
 **C Files:**
-* **c_files** - Path to All C Files (Array) _ALso gonna change in the future_;
+* **c\_files** - Path to All C Files (Array) _ALso gonna change in the future_;
 
 **Compiler Params:**
-* **compiler_params** - All compile extra parameters goes here, it will be passed to GCC in the compilation line;
+* **compiler\_params** - All compile extra parameters goes here, it will be passed to GCC in the compilation line;
 
 **Next Build:**
-* **next_build** - Need to build a Lib and then a Exe? Here is the solution, **next_build** allows you to create multiple build stages for your app, just create another **buildme.tcb** file and drop the name here _(without **.tcb**)_, it will be executed one after another... In case of no next_build keep it a **null** object.
+* **next\_build** - Need to build a Lib and then a Exe? Here is the solution, **next\_build** allows you to create multiple build stages for your app, just create another **buildme.tcb** file and drop the name here _(without **.tcb**)_, it will be executed one after another... In case of no next\_build keep it a **null** object.
 
 **Extra:**
-* **auto_create_folders** - Auto create build folder and all subfolders needed inside of it...
-* **generate_log** - Generate a log file in **%working\_dir%/ARTTCB_LOGS/** folder.
-* **jump_object_compilation** - Does not compile \*.o (objects) and go straight to main build (Lib or Exec).
+* **auto\_create\_folders** - Auto create build folder and all subfolders needed inside of it...
+* **generate\_log** - Generate a log file in **%working\_dir%/ARTTCB\_LOGS/** folder.
+* **jump\_object\_compilation** - Does not compile \*.o (objects) and go straight to main build (Lib or Exec).
 
 
 ## TODO:

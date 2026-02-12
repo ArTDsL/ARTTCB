@@ -74,7 +74,7 @@ namespace ARTTCB{
 					stream_writer.Close();
 				}
 			}
-			System.Threading.Thread.Sleep(50);
+			Thread.Sleep(50);
 			return;
 		}
 	}

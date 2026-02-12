@@ -23,11 +23,14 @@ using ARTTCB;
 class ConsoleMain {  
 	static int Main(string[] args){
 		for(int i = 0; i < args.Length; i++){
-			switch(args[i]){
-				case "build":{
-					Build build = new Build();
+			if(args.Length >= 1){
+				if(args[i] == "build"){
+					bool _log = false;
+					if(args.Length >= 2 && args[(i + 1)] == "-log"){
+						_log = true;
+					}
+					Build build = new Build(_log);
 					build.BuildTCB();
-					break;
 				}
 			}
 		}

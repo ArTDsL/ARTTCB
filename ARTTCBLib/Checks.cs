@@ -25,6 +25,12 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 namespace ARTTCB{
 	public class Checks{
+		private string log_file;
+		private bool IsLogActive;
+		public Checks(string _log_file, bool _IsLogActive){
+			this.log_file = _log_file;
+			this.IsLogActive = _IsLogActive;
+		}
 		public bool IsGCCInstalled(){
 			string gcc_command;
 			string gcc_args;
@@ -35,8 +41,8 @@ namespace ARTTCB{
 				gcc_command = "Command";
 				gcc_args = "-v gcc";
 			}else{
-				Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_ERR + "GCC is not installed in this computer.");
-				System.Environment.Exit(1);
+				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "GCC is not installed in this computer.", this.IsLogActive);
+				Environment.Exit(1);
 				return false;// Apparently C# needs a f@#$% return in this case to not pop some wierd error since we are closing the application with System.Envirorment.Exit(1)...
 			}
 			var proc = new Process(){
@@ -53,36 +59,35 @@ namespace ARTTCB{
 				proc.Start();
 				proc.WaitForExit();
 				if(proc.ExitCode == 0){
-					Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_OK + "GCC is installed.");
+					Log.AddToLog(this.log_file, ARTTCBLOGTYPE.OK, "GCC is installed.", this.IsLogActive);
 					return true;
 				}
 			}catch(Exception){
-				Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_ERR + "GCC is not installed in this computer.");
-				System.Environment.Exit(1);
+				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "GCC is not installed in this computer.", IsLogActive);
+				Environment.Exit(1);
 			}
-			Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_ERR + "GCC is not installed in this computer.");
-			System.Environment.Exit(1);
+			Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "GCC is not installed in this computer.", this.IsLogActive);
+			Environment.Exit(1);
 			return false; // Same as the first one, Dude... This code doesn't even run...
 		}
-		public bool TCBFIleExists(string tcb_file = null){
+		public string TCBFileExists(string tcb_file = null){
 			string _tcb_file;
 			_tcb_file = AppContext.BaseDirectory.ToString() + "/buildme.tcb";
 			if(tcb_file != null){
 				_tcb_file = AppContext.BaseDirectory.ToString() + "/" + tcb_file + ".tcb";
 			}
 			if(!File.Exists(_tcb_file)){
-				Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_ERR + "Buildme config file does not exist.");
-				System.Environment.Exit(1);
+				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "Buildme config file does not exist.", this.IsLogActive);
+				Environment.Exit(1);
 			}
-			return true;
+			return _tcb_file;
 		}
 		public void IsOFileDirExists(string build_folder){
 			if(!Directory.Exists(build_folder + "object\\")){
-				Console.WriteLine(Texts.ARTTCB_LOG_STR + Texts.ARTTCB_LOG_ERR + "Something went wrong, directory \"object\" folder does not exist in your build location...");
-				System.Environment.Exit(1);
+				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "Something went wrong, directory \"object\" folder does not exist in your build location...", this.IsLogActive);
+				Environment.Exit(1);
 			}
 			return;
-			;
 		}
 	}
 }

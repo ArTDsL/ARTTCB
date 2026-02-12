@@ -72,29 +72,28 @@ namespace ARTTCB{
 		private string includes_dir { get; set; }
 		private TCBFile tcbInfo { get; set; }
 		private string logfile_name { get; set; }
-		public Build(){
+		private bool islog_active { get; set; }
+		public Build(bool set_log_active){
 			DateTime actual_dateTime = DateTime.Now;
 			string logname = $"arttcb-log-{actual_dateTime.ToString("yyyy-MM-dd-HH-mm-ss-ff")}.log";
 			Log log = new Log();
 			log.CreateLogFile(logname);
 			this.logfile_name = logname;
-			System.Threading.Thread.Sleep(50);
+			this.islog_active = set_log_active; // Define Active using console for the beginning...
+			Thread.Sleep(150);
 			return;
 		}
 		public void BuildTCB(string buildme = null){
-			Checks checks = new Checks();
-			checks.IsGCCInstalled();
 			//Building file should be defined as buildme.tcb or set in next_build for example "buildme2", file for buildme2 should use extension ".tcb" too.
+			Checks checks = new Checks(this.logfile_name, this.islog_active);
 			string builme_file;
 			List<string> compiled_oFilesList = null;
 			StringReader buildme_inputs;
 			DeserializerBuilder buildme_des;
 			TCBFile build_params;
 			try{
-				builme_file = File.ReadAllText(AppContext.BaseDirectory.ToString() + "/buildme.tcb");
-				if(buildme != null){
-					builme_file = File.ReadAllText(AppContext.BaseDirectory.ToString() + "/" + buildme + ".tcb");
-				}
+				string _tcb_file = checks.TCBFileExists(buildme);
+				builme_file = File.ReadAllText(_tcb_file);
 				buildme_inputs = new StringReader(builme_file);
 				buildme_des = new DeserializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance);
 				IDeserializer buildedme_des = buildme_des.Build();
@@ -111,9 +110,10 @@ namespace ARTTCB{
 				if(build_params.auto_create_folders == true){
 					TCBCreateFolders();
 				}
+				checks.IsGCCInstalled();
 				Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.NONE, "---> Project Info", (bool)this.tcbInfo.generate_log);
 				Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.NONE, 
-					$"Project Name: {this.tcbInfo.project_name}" +
+					$"\nProject Name: {this.tcbInfo.project_name}" +
 					$"\nProject Version: {this.tcbInfo.project_version}" +
 					$"\nProject Author: {this.tcbInfo.project_author}" +
 					$"\nProject Build Name: {this.tcbInfo.project_buildname}", (bool)this.tcbInfo.generate_log);
@@ -188,7 +188,7 @@ namespace ARTTCB{
 			return compiled_oFiles;
 		}
 		public List<string> BuildObjFiles(){
-			Checks checks = new Checks();
+			Checks checks = new Checks(this.logfile_name, this.tcbInfo.generate_log);
 			string compiler_instructions;
 			List<string> compiled_oFiles = new List<String>();
 			checks.IsOFileDirExists(this.build_dir);
