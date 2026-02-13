@@ -200,13 +200,15 @@ namespace ARTTCB{
 					ClearBuild();
 					System.Environment.Exit(1);
 				}
+				//Check if folder structure is the same in Object folder, otherwise create needed to ensure compilation (better organization)
 				string compiler_args = "";
 				foreach(var compiler_params in this.tcbInfo.compiler_params){
 					compiler_args += compiler_params + " ";
 				}
-				compiler_instructions = $"-O2 -I {this.includes_dir} -c {this.source_dir}{cFile} -o {this.object_dir}{oFile} {compiler_args}";
+				string ofile_rebase = Path.GetFileName(oFile);
+				compiler_instructions = $"-O2 -I {this.includes_dir} -c {this.source_dir}{cFile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
 				// Console.WriteLine(compiler_instructions); // Debug
-				ExecuteBuildOnGCC(oFile, compiler_instructions);
+				ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
 				compiled_oFiles.Add(oFile);
 			}
 			return compiled_oFiles;
@@ -220,11 +222,12 @@ namespace ARTTCB{
 			string ofiles_compiler = "";
 			foreach(var oFile in o_files){
 				//check if O file exists
-				if(!File.Exists(this.object_dir + oFile)){
-					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{oFile}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
+				string ofile_rebase = Path.GetFileName(oFile);
+				if(!File.Exists(this.object_dir + ofile_rebase)){
+					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{ofile_rebase}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
 					System.Environment.Exit(1);
 				}
-				ofiles_compiler += $"{this.object_dir}{oFile} ";
+				ofiles_compiler += $"{this.object_dir}{ofile_rebase} ";
 			}
 			string compiler_args = "";
 			foreach(var compiler_params in this.tcbInfo.compiler_params){
@@ -244,11 +247,12 @@ namespace ARTTCB{
 			string ofiles_compiler = "";
 			foreach(var oFile in o_files){
 				//check if O file exists
-				if(!File.Exists(this.object_dir + oFile)){
-					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{oFile}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
+				string ofile_rebase = Path.GetFileName(oFile);
+				if(!File.Exists(this.object_dir + ofile_rebase)){
+					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{ofile_rebase}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
 					System.Environment.Exit(1);
 				}
-				ofiles_compiler += $"{this.object_dir}{oFile}";
+				ofiles_compiler += $"{this.object_dir}{ofile_rebase} ";
 			}
 			string compiler_args = "";
 			foreach(var compiler_params in this.tcbInfo.compiler_params){
