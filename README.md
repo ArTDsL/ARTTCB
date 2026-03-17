@@ -1,4 +1,4 @@
-# ART Tiny C Builder (ARTTCB)
+# ART Tiny C Builder (ARTTCB) [![.NET](https://github.com/ArTDsL/ARTTCB/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/ArTDsL/ARTTCB/actions/workflows/dotnet.yml)
 **ART Tiny C Builder** is a little **C Language** builder that uses GCC to perform quick project build based on pre-defined parameters.
 
 Developed using [**C# NetCore**](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) and [**YAML**](https://yaml.org/), it's easy to setup and build your project.
