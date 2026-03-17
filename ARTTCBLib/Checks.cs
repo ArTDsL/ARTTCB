@@ -74,7 +74,7 @@ namespace ARTTCB{
 			string _tcb_file;
 			_tcb_file = AppContext.BaseDirectory.ToString() + "/buildme.tcb";
 			if(tcb_file != null){
-				_tcb_file = AppContext.BaseDirectory.ToString() + "/" + tcb_file + ".tcb";
+				_tcb_file = AppContext.BaseDirectory.ToString() + "/" + tcb_file.ToString() + ".tcb";
 			}
 			if(!File.Exists(_tcb_file)){
 				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "Buildme config file does not exist.", this.IsLogActive);

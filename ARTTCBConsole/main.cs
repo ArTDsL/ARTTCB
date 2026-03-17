@@ -22,18 +22,25 @@
 using ARTTCB;
 class ConsoleMain {  
 	static int Main(string[] args){
+		bool _log = false;
+		string? build_file = null;
 		for(int i = 0; i < args.Length; i++){
 			if(args.Length >= 1){
-				if(args[i] == "build"){
-					bool _log = false;
-					if(args.Length >= 2 && args[(i + 1)] == "-log"){
-						_log = true;
+				if(args[i] == "-build"){
+					if(args.Length >= 2 && args[(i + 1)] == "--tcb"){
+						build_file += args[(i + 2)];
+						Console.WriteLine($"Build file set to: {build_file}");
+						i++;
+						continue;	
 					}
-					Build build = new Build(_log);
-					build.BuildTCB();
+				}
+				if(args[i] == "-log"){
+					_log = true;
 				}
 			}
 		}
+		Build build = new Build(_log);
+		build.BuildTCB(build_file);
 		return 0;
 	}
 }

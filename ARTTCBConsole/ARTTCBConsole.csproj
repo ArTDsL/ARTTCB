@@ -16,11 +16,12 @@
     <RepositoryUrl>https://github.com/ArTDsL/ARTTCB/</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.1.0</AssemblyVersion>
-    <FileVersion>1.1.0</FileVersion>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
+    <FileVersion>1.2.1</FileVersion>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <StartupObject>ConsoleMain</StartupObject>
-    <Version>1.1.0</Version>
+    <Version>1.2.1</Version>
+    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

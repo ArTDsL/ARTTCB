@@ -37,7 +37,13 @@ namespace ARTTCB{
 		public static StreamWriter stream_writer;
 		public bool CreateLogFile(string log_name){
 			try{
-				string logs_dir = $"{AppContext.BaseDirectory}\\ARTTCB_LOGS\\";
+				string logs_dir = null;
+				if(OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()){
+					logs_dir = $"{AppContext.BaseDirectory}/ARTTCB_LOGS/";
+				}
+				if(OperatingSystem.IsWindows()){
+					logs_dir = $"{AppContext.BaseDirectory}\\ARTTCB_LOGS\\";
+				}
 				if(!Directory.Exists(logs_dir)){
 					Directory.CreateDirectory(logs_dir);
 				}
@@ -49,7 +55,14 @@ namespace ARTTCB{
 			}
 		}
 		public static void AddToLog(string income_log_file, ARTTCBLOGTYPE type, string message, bool logInFile){
-			string log_file = $"{AppContext.BaseDirectory}\\ARTTCB_LOGS\\{income_log_file}";
+			string log_file = null;
+			if(OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()){
+				log_file = $"{AppContext.BaseDirectory}/ARTTCB_LOGS/{income_log_file}";
+			}
+			if(OperatingSystem.IsWindows()){
+				log_file = $"{AppContext.BaseDirectory}\\ARTTCB_LOGS\\{income_log_file}";
+			}
+			
 			DateTime dateTime = DateTime.Now;
 			string actual_timestamp = dateTime.ToString("yyyy-MM-dd HH:mm:ss-ff");
 			string log_info = $"{Texts.ARTTCB_LOG_STR}| {actual_timestamp} ] ";
