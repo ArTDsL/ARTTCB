@@ -17,15 +17,25 @@ Download the binaries [**here**](https://github.com/ArTDsL/ARTTCB/releases)!
 
 **Instructions here are the same for all systems (Windows / Linux / MacOS):**
 
-**1)** _Copy `ARTTCB.exe` <small>(or `ARTTCB` in case of **Linux** and **MacOs**)</small> to your project folder._
+**1)** _Copy `ARTTCB.exe` <small>(or `ARTTCBe` in case of **Linux** and **MacOs**)</small> to your project folder._
 
-**2)** Create `buildme.tcb` file;
+**2)** Create `buildme.tcb` file in the same folder you place **ARTTCB** executable;
 
-**3)** Run `ARTTCB` in a CMD <small>(or terminal in case of **Linux** and **MacOs**)</small>.
+**3)** Run `.\ARTTCB.exe -build -log` in a CMD <small>(or terminal `./ARTTCBe -build -log` in case of **Linux** and **MacOs**) to build directly with a `buildme.tcb`</small>.
 
-**4)** Use the command `.\ARTTCB.exe build -log` <small>(or `./ARTTCB build -log` in case of **Linux** and **MacOs**)</small>.
+**ARGUMENTS:** 
+| **ARGUMENT**                | **WINDOWS**                                                            | **LINUX & MACOS**                                                        |
+|-----------------------------|------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| `-build`                    | `.\ARTTCB -build`                                                      | `./ARTTCBe -build`                                                       |
+| `-build --tcb "CUSTOM_TCB"` | `.\ARTTCB -build --tcb "CUSTOM_TCB"`                                   |`./ARTTCBe -build --tcb "CUSTOM_TCB"`                                     |
+| `-log`                      | `.\ARTTCB -build -log` **~** `.\ARTTCB -build --tcb "CUSTOM_TCB" -log` | `./ARTTCBe -build -log` **~** `./ARTTCBe -build --tcb "CUSTOM_TCB" -log` |
 
-**OBS:** _**Make sure all [ARTTCB files](#using-binaries) are in the same folder, includer your `buildme.tcb`.**_
+> [!WARNING]  
+> _**DO NOT PUT .TCB IN THE FILE NAME AFTER** `--tcb`;_ 
+
+> [!IMPORTANT]  
+> **OBS:** _**Make sure all [ARTTCB executable(s)](#using-binaries) are in the same folder, includer your `buildme.tcb`.**_
+
 
 #### Compiling:
 
@@ -38,7 +48,7 @@ Download the binaries [**here**](https://github.com/ArTDsL/ARTTCB/releases)!
 
 ##### Linux and MacOs:
 
-**1)**Make sure you have [**.NetCore 8 SDK**](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) and [**dotnet tools**](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install) installed.
+**1)** Make sure you have [**.NetCore 8 SDK**](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) and [**dotnet tools**](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-install) installed.
 
 **2)** Open the folder where ARTTCB is located and open a terminal.
 
@@ -61,6 +71,10 @@ working_dir: "C:\\example\\"
 build_folder: "build\\" # Uses "working_dir" as ROOT.
 include_folders: "includes\\" # Uses "working_dir" as ROOT.
 code_main_dir: "src\\" # Uses "working_dir" as ROOT.
+# "os"
+os: WINDOWS #( WINDOWS | LINUX | MAC )
+# "architecture"
+architecture: x64 #( x64 | x86 | archx64 )
 # Build type
 build_type: DLIB #(SLIB: STATIC LIB | DLIB: Dynamic Lib | EXE: Windows Exec | LEXEC: Linux Exec | MEXEC: MacOS Exec")
 # C Files
@@ -103,6 +117,18 @@ jump_object_compilation: false
 * **code\_main\_dir** - Folder where your Source Code (\*.c) files are located;
     
     <small>(**OBS:** _Folders: **build\_folder**, **include\_folders**, **code\_main\_dir** have the **working\_dir** as **ROOT**, it means their path start inside the **working\_dir** folder._)</small>
+
+**Operating System:**
+* **os** - The **os** parameter tell **ARTTCB** what **Operating System** we are performing the build (in some cases gcc needs to know that) and also help organize your objects and binaries;
+* * **WINDOWS** - Microsoft Windows
+* * **LINUX** - Linux Based
+* * **MAC** - Apple MacOS
+
+**Architecture:**
+* **architecture** - Architecture that **ARTTCB** will prompt gcc to build and also organize your objects and binaries;
+* * **x64** - x64 architecture
+* * **x86** - x86 (i86 A.K.A 32bits) architecture
+* * **archx64** - New Arch-x64 architecture
 
 **Build type:** _(This will change in the future as things goes...)_
 * **build\_type** - The **build\_type** defines what type of build you want to perform:
