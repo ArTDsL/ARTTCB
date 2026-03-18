@@ -235,9 +235,11 @@ namespace ARTTCB{
 		public List<string> SearchRelativeOFiles(){
 			//fetch only files from the specific build
 			List<string> compiled_oFiles = new List<String>();
-			foreach(string c_file in this.tcbInfo.c_files){
-				string o_file = c_file.Replace(".c", ".o");
-				compiled_oFiles.Add(o_file);
+			string[] ofiles = Directory.GetFiles(this.object_dir, "*.o", SearchOption.AllDirectories);
+			foreach(string o_file in ofiles){
+				if(o_file != "*"){
+					compiled_oFiles.Add(Path.GetFileName(o_file));
+				}
 			}
 			return compiled_oFiles;
 		}
@@ -251,7 +253,7 @@ namespace ARTTCB{
 				string[] cfiles = Directory.GetFiles(this.source_dir, "*.c", SearchOption.AllDirectories);
 				foreach(string cfile in cfiles){
 					//check if C file exists
-					if(!File.Exists(cfile)) {
+					if(!File.Exists(cfile)){
 						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, when building the object (*.o) files.", (bool)this.tcbInfo.generate_log);
 						ClearBuild();
 						System.Environment.Exit(1);
@@ -263,7 +265,9 @@ namespace ARTTCB{
 					string ofile_rebase = Path.GetFileName(cfile.Replace(".c", ".o"));
 					compiler_instructions = $"-O2 -I {this.includes_dir} -c {cfile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
 					ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
-					compiled_oFiles.Add(ofile_rebase);
+					if(ofile_rebase != "*"){
+						compiled_oFiles.Add(ofile_rebase);
+					}
 				}
 			}else{
 				foreach(var cFile in this.tcbInfo.c_files){
@@ -275,14 +279,16 @@ namespace ARTTCB{
 						System.Environment.Exit(1);
 					}
 					string compiler_args = "";
-					foreach(var compiler_params in this.tcbInfo.compiler_params) {
+					foreach(var compiler_params in this.tcbInfo.compiler_params){
 						compiler_args += compiler_params + " ";
 					}
 					string ofile_rebase = Path.GetFileName(oFile);
 					compiler_instructions = $"-O2 -I {this.includes_dir} -c {this.source_dir}{cFile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
 					// Console.WriteLine(compiler_instructions); // Debug
 					ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
-					compiled_oFiles.Add(oFile);
+					if(oFile != "*"){
+						compiled_oFiles.Add(oFile);
+					}
 				}
 			}
 			return compiled_oFiles;
@@ -322,11 +328,16 @@ namespace ARTTCB{
 			foreach(var oFile in o_files){
 				//check if O file exists
 				string ofile_rebase = Path.GetFileName(oFile);
-				if(!File.Exists(this.object_dir + ofile_rebase)){
-					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{ofile_rebase}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
-					System.Environment.Exit(1);
+				//Console.WriteLine($"FILE .O TO BUILD: {ofile_rebase}"); // Debug
+				if(ofile_rebase != "*"){
+					if(!File.Exists(this.object_dir + ofile_rebase)){
+						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{ofile_rebase}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
+						System.Environment.Exit(1);
+					}
+					if(ofile_rebase != "*"){
+						ofiles_compiler += $"{this.object_dir}{ofile_rebase} ";
+					}
 				}
-				ofiles_compiler += $"{this.object_dir}{ofile_rebase} ";
 			}
 			string compiler_args = "";
 			foreach(var compiler_params in this.tcbInfo.compiler_params){

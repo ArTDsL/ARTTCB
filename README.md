@@ -139,7 +139,7 @@ jump_object_compilation: false
 * * **SLIB** - Static Library
 
 **C Files:**
-* **c\_files** - Path to All C Files (Array) _ALso gonna change in the future_;
+* **c\_files** - Your *.c Files to build (Array) _(Also gonna change in the future)_;
 
 **Compiler Params:**
 * **compiler\_params** - All compile extra parameters goes here, it will be passed to GCC in the compilation line;
@@ -155,11 +155,11 @@ jump_object_compilation: false
 
 ## TODO:
 
-* Linux Exec/Libs Build;
-* MacOS Exec/Libs Build;
-* Auto Parameters (some, not all);
-* Auto \*.c file referencer;
-* Better options; 
+- [ ] Linux Exec/Libs Build;
+- [ ] MacOS Exec/Libs Build;
+- [ ] Auto Parameters (some, not all);
+- [x] Auto \*.c file referencer _(**ready, comming on 2.0.0**)_;
+- [ ] Better options; 
 
 ## Finally...
 
