@@ -246,24 +246,44 @@ namespace ARTTCB{
 			string compiler_instructions;
 			List<string> compiled_oFiles = new List<String>();
 			checks.IsOFileDirExists(this.build_dir);
-			foreach(var cFile in this.tcbInfo.c_files){
-				string oFile = cFile.Replace(".c", ".o");
-				//check if C file exists
-				if(!File.Exists(this.source_dir + cFile)){
-					Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, when building the object (*.o) files.", (bool)this.tcbInfo.generate_log);
-					ClearBuild();
-					System.Environment.Exit(1);
+			int size_cFiles = this.tcbInfo.c_files.Count();
+			if(size_cFiles == 1 && this.tcbInfo.c_files[0] == "*"){
+				string[] cfiles = Directory.GetFiles(this.source_dir, "*.c", SearchOption.AllDirectories);
+				foreach(string cfile in cfiles){
+					//check if C file exists
+					if(!File.Exists(cfile)) {
+						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, when building the object (*.o) files.", (bool)this.tcbInfo.generate_log);
+						ClearBuild();
+						System.Environment.Exit(1);
+					}
+					string compiler_args = "";
+					foreach(var compiler_params in this.tcbInfo.compiler_params){
+						compiler_args += compiler_params + " ";
+					}
+					string ofile_rebase = Path.GetFileName(cfile.Replace(".c", ".o"));
+					compiler_instructions = $"-O2 -I {this.includes_dir} -c {cfile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
+					ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
+					compiled_oFiles.Add(ofile_rebase);
 				}
-				//Check if folder structure is the same in Object folder, otherwise create needed to ensure compilation (better organization)
-				string compiler_args = "";
-				foreach(var compiler_params in this.tcbInfo.compiler_params){
-					compiler_args += compiler_params + " ";
+			}else{
+				foreach(var cFile in this.tcbInfo.c_files){
+					string oFile = cFile.Replace(".c", ".o");
+					//check if C file exists
+					if(!File.Exists(this.source_dir + cFile)){
+						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, when building the object (*.o) files.", (bool)this.tcbInfo.generate_log);
+						ClearBuild();
+						System.Environment.Exit(1);
+					}
+					string compiler_args = "";
+					foreach(var compiler_params in this.tcbInfo.compiler_params) {
+						compiler_args += compiler_params + " ";
+					}
+					string ofile_rebase = Path.GetFileName(oFile);
+					compiler_instructions = $"-O2 -I {this.includes_dir} -c {this.source_dir}{cFile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
+					// Console.WriteLine(compiler_instructions); // Debug
+					ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
+					compiled_oFiles.Add(oFile);
 				}
-				string ofile_rebase = Path.GetFileName(oFile);
-				compiler_instructions = $"-O2 -I {this.includes_dir} -c {this.source_dir}{cFile} -o {this.object_dir}{ofile_rebase} {compiler_args}";
-				// Console.WriteLine(compiler_instructions); // Debug
-				ExecuteBuildOnGCC(ofile_rebase, compiler_instructions);
-				compiled_oFiles.Add(oFile);
 			}
 			return compiled_oFiles;
 		}
