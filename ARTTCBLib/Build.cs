@@ -160,6 +160,13 @@ namespace ARTTCB{
 						Console.WriteLine();
 						break;
 					}
+					case TCBTYPE.LEXEC:{
+						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.NONE, $"\n---> Building Linux Executable (LEXEC) \"{this.tcbInfo.project_buildname}\"", (bool)this.tcbInfo.generate_log);
+						List<string> relative_OFiles = SearchRelativeOFiles();
+						BuildLinEXEC(relative_OFiles);
+						Console.WriteLine();
+						break;
+					}
 				}
 				if(!String.IsNullOrEmpty(build_params.next_build)){
 					BuildTCB(build_params.next_build);
@@ -247,7 +254,7 @@ namespace ARTTCB{
 			Checks checks = new Checks(this.logfile_name, this.tcbInfo.generate_log);
 			string compiler_instructions;
 			List<string> compiled_oFiles = new List<String>();
-			checks.IsOFileDirExists(this.build_dir);
+			//checks.IsOFileDirExists(this.build_dir); // Deprecated, folder is auto-created at runtime.
 			int size_cFiles = this.tcbInfo.c_files.Count();
 			if(size_cFiles == 1 && this.tcbInfo.c_files[0] == "*"){
 				string[] cfiles = Directory.GetFiles(this.source_dir, "*.c", SearchOption.AllDirectories);
@@ -346,6 +353,36 @@ namespace ARTTCB{
 			compiler_instructions = $"-o {this.build_output}{this.tcbInfo.project_buildname}.exe {ofiles_compiler} {compiler_args}";
 			// Console.WriteLine(compile_args); // Debug
 			ExecuteBuildOnGCC($"\"Windows Executable (EXE): {this.tcbInfo.project_buildname}.exe\"", compiler_instructions);
+			return;
+		}
+		public void BuildLinEXEC(List<string>o_files){
+			string compiler_instructions;
+			if(!Directory.Exists(this.object_dir)){
+				Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, directory \"object\" folder does not exist in your build location...", (bool)this.tcbInfo.generate_log);
+				System.Environment.Exit(1);
+			}
+			string ofiles_compiler = "";
+			foreach(var oFile in o_files){
+				//check if O file exists
+				string ofile_rebase = Path.GetFileName(oFile);
+				//Console.WriteLine($"FILE .O TO BUILD: {ofile_rebase}"); // Debug
+				if(ofile_rebase != "*"){
+					if(!File.Exists(this.object_dir + ofile_rebase)){
+						Log.AddToLog(this.logfile_name, ARTTCBLOGTYPE.ERROR, $"Something went wrong, \"{ofile_rebase}\" is missing from \"object\" folder.", (bool)this.tcbInfo.generate_log);
+						System.Environment.Exit(1);
+					}
+					if(ofile_rebase != "*"){
+						ofiles_compiler += $"{this.object_dir}{ofile_rebase} ";
+					}
+				}
+			}
+			string compiler_args = "";
+			foreach(var compiler_params in this.tcbInfo.compiler_params){
+				compiler_args += $"{compiler_params} ";
+			}
+			compiler_instructions = $"-o {this.build_output}{this.tcbInfo.project_buildname} {ofiles_compiler} {compiler_args}";
+			// Console.WriteLine(compile_args); // Debug
+			ExecuteBuildOnGCC($"\"Linux Executable (LEXEC): {this.tcbInfo.project_buildname}\"", compiler_instructions);
 			return;
 		}
 		public void ExecuteBuildOnGCC(string output_name, string args){

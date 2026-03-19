@@ -38,8 +38,8 @@ namespace ARTTCB{
 				gcc_command = "where.exe";
 				gcc_args = "gcc.exe";
 			}else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)){
-				gcc_command = "Command";
-				gcc_args = "-v gcc";
+				gcc_command = "/bin/bash";
+				gcc_args = "-c \"command -v gcc\"";
 			}else{
 				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "GCC is not installed in this computer.", this.IsLogActive);
 				Environment.Exit(1);
@@ -82,8 +82,9 @@ namespace ARTTCB{
 			}
 			return _tcb_file;
 		}
+		[Obsolete]
 		public void IsOFileDirExists(string build_folder){
-			if(!Directory.Exists(build_folder + "object\\")){
+			if(!Directory.Exists(build_folder + "object")){
 				Log.AddToLog(this.log_file, ARTTCBLOGTYPE.ERROR, "Something went wrong, directory \"object\" folder does not exist in your build location...", this.IsLogActive);
 				Environment.Exit(1);
 			}
